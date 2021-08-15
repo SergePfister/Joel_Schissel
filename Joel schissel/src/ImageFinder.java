@@ -5,8 +5,9 @@ import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.image.PixelGrabber;
@@ -25,14 +26,14 @@ public class ImageFinder {
         int[] refArray = null;
         
         BufferedImage refPic;
-        File file = new File("C:\\Users\\Serge\\Desktop\\Joel_Schissel\\Joel schissel\\Capture.PNG");
-        refPic = ImageIO.read(file);
+        Path file = Paths.get("Joel schissel/Images/Capture.PNG");
+        refPic = ImageIO.read(file.toFile());
 
         BufferedImage screenShot;
-        File file1 = new File("C:\\Users\\Serge\\Desktop\\Joel_Schissel\\Joel schissel\\Screenshots" + "jpg");
+        Path file1 = Paths.get("Joel schissel/Images/Screenshots.jpg");
         Robot robot = new Robot();
         screenShot = robot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
-        ImageIO.write(screenShot, "JPG", file1);
+        ImageIO.write(screenShot, "JPG", file1.toFile());
 
         screenArray = new int[screenShot.getWidth() * screenShot.getHeight()];
         refArray = new int[refPic.getWidth() * refPic.getHeight()];
