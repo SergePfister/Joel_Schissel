@@ -36,7 +36,7 @@ public class ImageFinder {
         int[] refArray = null;
 
         BufferedImage refPic;
-        Path file = Paths.get("Joel schissel/Images/CaptureACCEPT.PNG");
+        Path file = Paths.get("Joel schissel/Images/Capture.PNG");
         refPic = ImageIO.read(file.toFile());
 
         BufferedImage screenShot;
@@ -65,7 +65,7 @@ public class ImageFinder {
         screenObject = pixler(screenArray, screenShot.getWidth(), screenShot.getHeight());
         refObject = pixler(refArray, refPic.getWidth(), refPic.getHeight());
 
-        for (int x = 0; x < screenObject.size()-refObject.size()+1; x++) {
+        for (int x = 0; x < screenObject.size()-(screenShot.getWidth()*(refPic.getHeight()-1)); x++) {
 
             int fehlerInt = 0;
             int refX = 0;
