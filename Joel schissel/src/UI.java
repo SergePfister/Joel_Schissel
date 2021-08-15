@@ -93,8 +93,18 @@ public class UI extends VBox {
                 }
             }
         });
-        stop.setOnAction(e -> runBooleanProperty.set(false));
-        restart.setOnAction(e -> restaBooleanProperty.set(false));
+        stop.setOnAction(e -> {
+         runBooleanProperty.set(false);
+         restaBooleanProperty.set(false);
+        });
+        restart.setOnAction(e -> {
+            restaBooleanProperty.set(false);
+            try {
+                searcher();
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+        });
     }
 
     public boolean isRestartBol() {
@@ -117,7 +127,7 @@ public class UI extends VBox {
         while (!restaBooleanProperty.get() && runBooleanProperty.get()) {
             ImageFinder a = new ImageFinder();
             if (a.runner()) {
-                restaBooleanProperty.set(false);
+                restaBooleanProperty.set(true);
             }
         }
 
