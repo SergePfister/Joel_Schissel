@@ -23,14 +23,17 @@ public class ImageFinder {
         int lul = 0;
         int[] screenArray = null;
         int[] refArray = null;
-        BufferedImage screenShot;
+        
         BufferedImage refPic;
-        File file;
+        File file = new File("C:\\Users\\Serge\\Desktop\\Joel_Schissel\\Joel schissel\\Capture.PNG");
+        refPic = ImageIO.read(file);
+
+        BufferedImage screenShot;
+        File file1 = new File("C:\\Users\\Serge\\Desktop\\Joel_Schissel\\Joel schissel\\Screenshots" + "jpg");
         Robot robot = new Robot();
         screenShot = robot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
-        ImageIO.write(screenShot, "JPG", new File("Screenshots" + ".jpg"));
-        file = new File("Capture.PNG");
-        refPic = ImageIO.read(file);
+        ImageIO.write(screenShot, "JPG", file1);
+
         screenArray = new int[screenShot.getWidth() * screenShot.getHeight()];
         refArray = new int[refPic.getWidth() * refPic.getHeight()];
         List<Pixel_Data> screenObject = new ArrayList<>();
@@ -39,13 +42,13 @@ public class ImageFinder {
         PixelGrabber a = new PixelGrabber(screenShot, 0, 0, screenShot.getWidth(), screenShot.getHeight(), screenArray,
                 0, screenShot.getWidth());
 
-        if (a.grabPixels())
+        if (a.grabPixels(0))
             ;
 
         PixelGrabber b = new PixelGrabber(refPic, 0, 0, refPic.getWidth(), refPic.getHeight(), refArray, 0,
                 refPic.getWidth());
 
-        if (b.grabPixels())
+        if (b.grabPixels(0))
             ;
 
         screenObject = pixler(screenArray, screenShot.getWidth(), screenShot.getHeight());
@@ -65,7 +68,7 @@ public class ImageFinder {
                 lul += screenObject.get(x + (yOffSet * (screenShot.getWidth() - refPic.getWidth())))
                         .compareTo(refObject.get(refX));
 
-                        refX++;
+                refX++;
                 if (refX % refPic.getWidth() == 0) {
                     yOffSet++;
                 }
