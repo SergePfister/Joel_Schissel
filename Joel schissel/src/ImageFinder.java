@@ -14,20 +14,17 @@ import java.awt.image.PixelGrabber;
 import javax.imageio.ImageIO;
 import java.awt.event.*;
 
-public class ImageFinder {
+public class ImageFinder{
 
-    public static void main(String[] args) throws Exception {
-        ImageFinder a = new ImageFinder();
-
-        a.Runner(a.checker());
-    }
-
-    public void Runner(Pixel_Data data) throws Exception{
+    public boolean runner() throws Exception{
+        Pixel_Data data = checker();
         if ( data==null){
             System.out.println("Bild nicht gefunden");
+            return false;
         }else{
             klick(data.x, data.y);
             System.out.println(data);
+            return true;
         }
     }
 
@@ -72,7 +69,7 @@ public class ImageFinder {
             int yOffSet = 0;
             int count = 0;
 
-            while (fehlerInt <= 100) {
+            while (fehlerInt <= 10) {
                 fehlerInt += screenObject.get(x + refX + (yOffSet * (screenShot.getWidth() - refPic.getWidth())))
                         .compareTo(refObject.get(refX));              
                 refX++;
@@ -114,4 +111,6 @@ public class ImageFinder {
         }
         return k;
     }
+
+
 }
