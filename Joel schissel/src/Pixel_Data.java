@@ -19,7 +19,6 @@ public class Pixel_Data implements Comparable<Pixel_Data> {
     @Override
     public int compareTo(Pixel_Data o) {
         if ( o.pixel == pixel) {
-            System.out.println("yes");
             return 0;
         } else {
             return 1;

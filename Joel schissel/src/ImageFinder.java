@@ -63,7 +63,7 @@ public class ImageFinder {
             int count = 0;
 
             while (fehlerInt == 0) {
-                fehlerInt += screenObject.get(x + (yOffSet * (screenShot.getWidth() - refPic.getWidth())))
+                fehlerInt += screenObject.get(x +refX+ (yOffSet * (screenShot.getWidth() - refPic.getWidth())))
                         .compareTo(refObject.get(refX));
                 // Test var
                 lul += screenObject.get(x + (yOffSet * (screenShot.getWidth() - refPic.getWidth())))
@@ -75,7 +75,7 @@ public class ImageFinder {
                 }
                 count++;
 
-                if (count == refObject.size() - 1) {
+                if (count >= refObject.size() - 10) {
                     System.out.println("true ...");
                     return screenObject.get(x + (yOffSet * (screenShot.getWidth() - refPic.getWidth())));
                 }
