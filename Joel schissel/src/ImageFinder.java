@@ -32,12 +32,11 @@ public class ImageFinder {
     }
 
     public Pixel_Data checker() throws InterruptedException, IOException, AWTException {
-        int lul = 0;
         int[] screenArray = null;
         int[] refArray = null;
 
         BufferedImage refPic;
-        Path file = Paths.get("Joel schissel/Images/Capture.PNG");
+        Path file = Paths.get("Joel schissel/Images/CaptureACCEPT.PNG");
         refPic = ImageIO.read(file.toFile());
 
         BufferedImage screenShot;
@@ -66,14 +65,14 @@ public class ImageFinder {
         screenObject = pixler(screenArray, screenShot.getWidth(), screenShot.getHeight());
         refObject = pixler(refArray, refPic.getWidth(), refPic.getHeight());
 
-        for (int x = 0; x < screenObject.size(); x++) {
+        for (int x = 0; x < screenObject.size()-refObject.size()+1; x++) {
 
             int fehlerInt = 0;
             int refX = 0;
             int yOffSet = 0;
             int count = 0;
 
-            while (fehlerInt == 0) {
+            while (fehlerInt <= 100) {
                 fehlerInt += screenObject.get(x + refX + (yOffSet * (screenShot.getWidth() - refPic.getWidth())))
                         .compareTo(refObject.get(refX));              
                 refX++;
@@ -87,8 +86,6 @@ public class ImageFinder {
                 }
             }
         }
-        System.out.println("false ..." + lul);
-
         return null;
     }
     public void klick(int xPosition,int yPosition)throws Exception{
