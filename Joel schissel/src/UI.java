@@ -1,5 +1,4 @@
 package src;
-
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -13,9 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.util.converter.NumberStringConverter;
 
 public class UI extends VBox {
-    BooleanProperty runBooleanProperty;
-    BooleanProperty restaBooleanProperty;
-    boolean restartBol;
+    ImageFinder imagefinder;
     boolean runBol;
     Slider inaccuracy;
     HBox hBox1;
@@ -30,9 +27,8 @@ public class UI extends VBox {
     private double insets = 20;
 
     public UI(double width, double height) {
+        imagefinder = new ImageFinder();
         inaccuracyProp = new SimpleIntegerProperty(0);
-        runBooleanProperty = new SimpleBooleanProperty(false);
-        restaBooleanProperty = new SimpleBooleanProperty(false);
         initializeControlls();
         layoutControlls(width, height);
     }
@@ -66,6 +62,19 @@ public class UI extends VBox {
         this.getChildren().addAll(hBox1, hBox2, inaccuracy);
 
     }
+    public void foo()  
+    {
+        Thread t = new Thread(new Runnable() {
+            public void run() {
+                try {
+                    while (!imagefinder.runner()&&runBol) {  }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+           }
+       });
+       t.start();
+    }
 
     private void initializeControlls() {
         labeltxt = new Label("Inaccuracy");
@@ -82,54 +91,17 @@ public class UI extends VBox {
             inaccuracyProp.set(newV.intValue());
         });
         run.setOnAction(e -> {
-            if (runBooleanProperty.get()) {
+            if (runBol) {
                 System.out.println("im still running");
             } else {
-                runBooleanProperty.set(true);
-                try {
-                    searcher();
-                } catch (Exception e1) {
-                    e1.printStackTrace();
-                }
+                runBol = true;
+                foo();
             }
         });
         stop.setOnAction(e -> {
-         runBooleanProperty.set(false);
-         restaBooleanProperty.set(false);
-        });
-        restart.setOnAction(e -> {
-            restaBooleanProperty.set(false);
-            try {
-                searcher();
-            } catch (Exception e1) {
-                e1.printStackTrace();
+            if (runBol) {
+                runBol = false;
             }
         });
-    }
-
-    public boolean isRestartBol() {
-        return restartBol;
-    }
-
-    public void setRestartBol(boolean restartBol) {
-        this.restartBol = restartBol;
-    }
-
-    public boolean isRunBol() {
-        return runBol;
-    }
-
-    public void setRunBol(boolean runBol) {
-        this.runBol = runBol;
-    }
-
-    void searcher() throws Exception {
-        while (!restaBooleanProperty.get() && runBooleanProperty.get()) {
-            ImageFinder a = new ImageFinder();
-            if (a.runner()) {
-                restaBooleanProperty.set(true);
-            }
-        }
-
     }
 }

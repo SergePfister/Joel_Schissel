@@ -12,11 +12,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.awt.image.PixelGrabber;
 import javax.imageio.ImageIO;
+
+import javafx.beans.property.BooleanProperty;
+
 import java.awt.event.*;
 
 public class ImageFinder{
+    BooleanProperty runBol;
+    public ImageFinder(){
 
-    public boolean runner() throws Exception{
+    }
+    public ImageFinder(BooleanProperty runBol){
+        this.runBol.bindBidirectional(runBol);
+    }
+
+    public  boolean runner() throws Exception{
         Pixel_Data data = checker();
         if ( data==null){
             System.out.println("Bild nicht gefunden");
@@ -110,7 +120,6 @@ public class ImageFinder{
             }
         }
         return k;
+      
     }
-
-
 }
