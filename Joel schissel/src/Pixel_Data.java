@@ -24,5 +24,11 @@ public class Pixel_Data implements Comparable<Pixel_Data> {
             return 1;
         }
     }
+    public void setX(int x) {
+        this.x = x;
+    }
+    public void setY(int y) {
+        this.y = y;
+    }
     
 }

@@ -82,6 +82,8 @@ public class ImageFinder {
                 count++;
                 if (count >= refObject.size()-1) {
                     System.out.println("true ...");
+                    screenObject.get(x).setX(screenObject.get(x).x+(refPic.getWidth()/2));
+                    screenObject.get(x).setY(screenObject.get(x).y+(refPic.getHeight()/2));
                     return screenObject.get(x);
                 }
             }
