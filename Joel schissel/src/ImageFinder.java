@@ -81,7 +81,7 @@ public class ImageFinder {
                     yOffSet++;
                 }
                 count++;
-                if (count >= refObject.size()) {
+                if (count >= refObject.size()-1) {
                     System.out.println("true ...");
                     return screenObject.get(x);
                 }
