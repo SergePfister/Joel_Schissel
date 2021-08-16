@@ -1,7 +1,5 @@
 package src;
-import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -67,7 +65,7 @@ public class UI extends VBox {
         Thread t = new Thread(new Runnable() {
             public void run() {
                 try {
-                    while (!imagefinder.runner()&&runBol) {  }
+                    while (!imagefinder.runner()&&runBol) {}
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
