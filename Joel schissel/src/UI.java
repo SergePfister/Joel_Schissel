@@ -102,6 +102,7 @@ public class UI extends VBox {
         run.setOnAction(e -> {
             if (runBol) {
                 System.out.println("im still running");
+                statusProp.set("Still Running");
             } else {
                 staticBol = false;
                 statusProp.set("Running");
