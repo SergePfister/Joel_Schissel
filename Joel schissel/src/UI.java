@@ -76,7 +76,7 @@ public class UI extends VBox {
         label = new Label(0.0 + "");
         hBox1 = new HBox();
         hBox2 = new HBox();
-        inaccuracy = new Slider(0, 101, 0);
+        inaccuracy = new Slider(0, 1000, 0);
         run = new Button("Run");
         stop = new Button("Stop");
         restart = new Button("Restart");
@@ -91,7 +91,7 @@ public class UI extends VBox {
                 statusProp.set("Running");
                 found.set(false);
                 runBol.set(true);
-                new RunFoo(found, runBol, statusProp,PicturePaths.ACCEPTBUTTON).start();
+                new RunFoo(found, runBol, statusProp,PicturePaths.ACCEPTBUTTON,inaccuracyProp.getValue()).start();
             }
         });
         stop.setOnAction(e -> {

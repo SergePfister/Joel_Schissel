@@ -17,21 +17,24 @@ import java.awt.event.*;
 public class ImageFinder {
 
     // Überprüft ob das refPic im Screenshot enthalten ist
-    public Pixel_Data checker(String path) throws InterruptedException, IOException, AWTException {
-        int[] screenArray = null;
-        int[] refArray = null;
+    public Pixel_Data checker(String path, int inaccuracy) throws InterruptedException, IOException, AWTException {
 
+        // Laden des Referenz Bildes
         BufferedImage refPic;
         Path file = Paths.get(path);
         refPic = ImageIO.read(file.toFile());
-
+        // Erzeugen des Screenshot zum vergleichen
         BufferedImage screenShot;
         Robot robot = new Robot();
         screenShot = robot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
-        //Speichert den gemachten Screenshot ab
-        //Path file1 = Paths.get("Joel schissel/Images/Screenshots.jpg");
-        //ImageIO.write(screenShot, "JPG", file1.toFile());
 
+        // Speichert den gemachten Screenshot ab
+        // Path file1 = Paths.get("Joel schissel/Images/Screenshots.jpg");
+        // ImageIO.write(screenShot, "JPG", file1.toFile());
+
+        // Erzeugen un Fülleen der Arrays mit Pixel daten
+        int[] screenArray = null;
+        int[] refArray = null;
         screenArray = new int[screenShot.getWidth() * screenShot.getHeight()];
         refArray = new int[refPic.getWidth() * refPic.getHeight()];
         List<Pixel_Data> screenObject = new ArrayList<>();
@@ -49,9 +52,16 @@ public class ImageFinder {
         if (b.grabPixels(0))
             ;
 
+        // Erzeugen der Pixel_Data Objekte
         screenObject = pixler(screenArray, screenShot.getWidth(), screenShot.getHeight());
         refObject = pixler(refArray, refPic.getWidth(), refPic.getHeight());
 
+        // inaccuracy in Prozent des RefPic Dumme Idee viel zu grosse Zahl Aufwand wird viel zugross
+        //int fehlerInProzent = (refObject.size() / 100) * inaccuracy;
+
+
+        // Start der Logik um das RefPic im Screenshot zu suchen und den Mittelpunkt des
+        // RefPics fals geefunden zu returnen
         for (int x = 0; x < screenObject.size() - (screenShot.getWidth() * (refPic.getHeight() - 1)); x++) {
 
             int fehlerInt = 0;
@@ -59,7 +69,7 @@ public class ImageFinder {
             int yOffSet = 0;
             int count = 0;
 
-            while (fehlerInt <= 10) {
+            while (fehlerInt <= inaccuracy) {
                 fehlerInt += screenObject.get(x + refX + (yOffSet * (screenShot.getWidth() - refPic.getWidth())))
                         .compareTo(refObject.get(refX));
                 refX++;
@@ -77,8 +87,8 @@ public class ImageFinder {
         return null;
     }
 
-    public Boolean klick(String path) throws Exception {
-        Pixel_Data a = this.checker(path);
+    public Boolean klick(String path, int inaccuracy) throws Exception {
+        Pixel_Data a = this.checker(path, inaccuracy);
         if (!(a == null)) {
             int x = a.getX();
             int y = a.getY();
