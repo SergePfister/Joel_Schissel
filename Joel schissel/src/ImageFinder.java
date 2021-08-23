@@ -12,22 +12,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.awt.image.PixelGrabber;
 import javax.imageio.ImageIO;
+
+import javafx.beans.property.BooleanProperty;
+
 import java.awt.event.*;
 
-public class ImageFinder{
+public class ImageFinder {
+    BooleanProperty runBol;
+    BooleanProperty found;
 
-    public boolean runner() throws Exception{
-        Pixel_Data data = checker();
-        if ( data==null){
-            System.out.println("Bild nicht gefunden");
-            return false;
-        }else{
-            klick(data.x, data.y);
-            System.out.println(data);
-            return true;
-        }
+    public ImageFinder() {
+
     }
 
+    public ImageFinder(BooleanProperty runBol, BooleanProperty found) {
+        this.runBol = runBol;
+        this.found = found;
+    }
+
+    // Überprüft ob das refPic im Screenshot enthalten ist
     public Pixel_Data checker() throws InterruptedException, IOException, AWTException {
         int[] screenArray = null;
         int[] refArray = null;
@@ -62,7 +65,7 @@ public class ImageFinder{
         screenObject = pixler(screenArray, screenShot.getWidth(), screenShot.getHeight());
         refObject = pixler(refArray, refPic.getWidth(), refPic.getHeight());
 
-        for (int x = 0; x < screenObject.size()-(screenShot.getWidth()*(refPic.getHeight()-1)); x++) {
+        for (int x = 0; x < screenObject.size() - (screenShot.getWidth() * (refPic.getHeight() - 1)); x++) {
 
             int fehlerInt = 0;
             int refX = 0;
@@ -71,31 +74,39 @@ public class ImageFinder{
 
             while (fehlerInt <= 10) {
                 fehlerInt += screenObject.get(x + refX + (yOffSet * (screenShot.getWidth() - refPic.getWidth())))
-                        .compareTo(refObject.get(refX));              
+                        .compareTo(refObject.get(refX));
                 refX++;
                 if (refX % refPic.getWidth() == 0) {
                     yOffSet++;
                 }
                 count++;
-                if (count >= refObject.size()-1) {
+                if (count >= refObject.size() - 1) {
                     System.out.println("true ...");
-                    screenObject.get(x).setX(screenObject.get(x).x+(refPic.getWidth()/2));
-                    screenObject.get(x).setY(screenObject.get(x).y+(refPic.getHeight()/2));
+                    screenObject.get(x).setX(screenObject.get(x).getX() + (refPic.getWidth() / 2));
+                    screenObject.get(x).setY(screenObject.get(x).getY() + (refPic.getHeight() / 2));
                     return screenObject.get(x);
                 }
             }
         }
         return null;
     }
-    public void klick(int xPosition,int yPosition)throws Exception{
 
-        int x = xPosition;
-        int y = yPosition;
-        int mask = InputEvent.BUTTON1_DOWN_MASK;
-        Robot bot = new Robot();
-        bot.mouseMove(x, y);
-        bot.mousePress(mask);     
-        bot.mouseRelease(mask);        
+    public Boolean klick() throws Exception {
+        Pixel_Data a = this.checker();
+        System.out.println(!(a == null) + " Klicked Value");
+        if (!(a == null)) {
+            System.out.println("klick");
+            int x = a.getX();
+            int y = a.getY();
+            int mask = InputEvent.BUTTON1_DOWN_MASK;
+            Robot bot = new Robot();
+            bot.mouseMove(x, y);
+            bot.mousePress(mask);
+            bot.mouseRelease(mask);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public List<Pixel_Data> pixler(int[] a, int w, int h) {
@@ -110,7 +121,6 @@ public class ImageFinder{
             }
         }
         return k;
+
     }
-
-
 }
