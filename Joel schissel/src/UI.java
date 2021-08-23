@@ -97,21 +97,13 @@ public class UI extends VBox {
                 statusProp.set("Running");
                 found.set(false);
                 runBol.set(true);
-                new RunFoo(found.get()).start();;
+                new RunFoo(found, runBol,statusProp).start();
             }
         });
         stop.setOnAction(e -> {
-            if (runBol.get()) {
-                statusProp.set("Stoped");
+            statusProp.set("Stoped");
                 runBol.set(false);
                 found.set(false);
-            }
-        });
-        found.addListener((target, newV, oldV) -> {
-            if (newV == true) {
-                statusProp.set("Found");
-                runBol.setValue(false);
-            }
         });
     }
 }
