@@ -91,7 +91,7 @@ public class UI extends VBox {
                 statusProp.set("Running");
                 found.set(false);
                 runBol.set(true);
-                new RunFoo(found, runBol, statusProp).start();
+                new RunFoo(found, runBol, statusProp,PicturePaths.ACCEPTBUTTON).start();
             }
         });
         stop.setOnAction(e -> {

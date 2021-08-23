@@ -9,9 +9,11 @@ public class RunFoo extends Service<Boolean> {
 
     private ImageFinder imagefinder;
     boolean bool;
+    String path;
 
-    public RunFoo(BooleanProperty boo, BooleanProperty runBol, StringProperty statProp) {
+    public RunFoo(BooleanProperty boo, BooleanProperty runBol, StringProperty statProp,String path) {
         bool = boo.get();
+        this.path=path;
         imagefinder = new ImageFinder();
         setOnSucceeded(e -> {
             if ((boolean) e.getSource().getValue()) {
@@ -24,7 +26,7 @@ public class RunFoo extends Service<Boolean> {
                 } catch (InterruptedException e1) {
                     e1.printStackTrace();
                 }
-                new RunFoo(boo, runBol, statProp).start();
+                new RunFoo(boo, runBol, statProp,path).start();
                 ;
             }
         });
@@ -39,7 +41,7 @@ public class RunFoo extends Service<Boolean> {
             protected Boolean call() throws Exception {
                 if (!bool) {
                     try {
-                        return imagefinder.klick();
+                        return imagefinder.klick(path);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

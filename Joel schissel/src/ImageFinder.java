@@ -12,38 +12,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.awt.image.PixelGrabber;
 import javax.imageio.ImageIO;
-
-import javafx.beans.property.BooleanProperty;
-
 import java.awt.event.*;
 
 public class ImageFinder {
-    BooleanProperty runBol;
-    BooleanProperty found;
-
-    public ImageFinder() {
-
-    }
-
-    public ImageFinder(BooleanProperty runBol, BooleanProperty found) {
-        this.runBol = runBol;
-        this.found = found;
-    }
 
     // Überprüft ob das refPic im Screenshot enthalten ist
-    public Pixel_Data checker() throws InterruptedException, IOException, AWTException {
+    public Pixel_Data checker(String path) throws InterruptedException, IOException, AWTException {
         int[] screenArray = null;
         int[] refArray = null;
 
         BufferedImage refPic;
-        Path file = Paths.get("Joel schissel/Images/Capture.PNG");
+        Path file = Paths.get(path);
         refPic = ImageIO.read(file.toFile());
 
         BufferedImage screenShot;
-        Path file1 = Paths.get("Joel schissel/Images/Screenshots.jpg");
         Robot robot = new Robot();
         screenShot = robot.createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
-        ImageIO.write(screenShot, "JPG", file1.toFile());
+        //Speichert den gemachten Screenshot ab
+        //Path file1 = Paths.get("Joel schissel/Images/Screenshots.jpg");
+        //ImageIO.write(screenShot, "JPG", file1.toFile());
 
         screenArray = new int[screenShot.getWidth() * screenShot.getHeight()];
         refArray = new int[refPic.getWidth() * refPic.getHeight()];
@@ -90,8 +77,8 @@ public class ImageFinder {
         return null;
     }
 
-    public Boolean klick() throws Exception {
-        Pixel_Data a = this.checker();
+    public Boolean klick(String path) throws Exception {
+        Pixel_Data a = this.checker(path);
         if (!(a == null)) {
             int x = a.getX();
             int y = a.getY();
