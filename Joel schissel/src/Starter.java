@@ -12,12 +12,10 @@ public class Starter extends Application {
 
     public static void main(String[] args) {
         launch(args);
-
     }
 
     @Override
     public void start(Stage stage) throws Exception {
-
         Parent rootPanel = new UI(width, height);
         final Scene scene = new Scene(rootPanel, width, height);
         stage.setTitle("AutoQueue");
@@ -25,6 +23,7 @@ public class Starter extends Application {
         stage.setResizable(true);
         stage.show();
         stage.resizableProperty().set(false);
+        System.out.println( Thread.currentThread().getName()+ "Main");
     }
 
     

@@ -19,25 +19,17 @@ import java.awt.event.*;
 
 public class ImageFinder{
     BooleanProperty runBol;
+    BooleanProperty found;
     public ImageFinder(){
 
     }
-    public ImageFinder(BooleanProperty runBol){
-        this.runBol.bindBidirectional(runBol);
+    public ImageFinder(BooleanProperty runBol,BooleanProperty found){
+        this.runBol = runBol;
+        this.found = found;
     }
 
-    public  boolean runner() throws Exception{
-        Pixel_Data data = checker();
-        if ( data==null){
-            System.out.println("Bild nicht gefunden");
-            return false;
-        }else{
-            klick(data.x, data.y);
-            System.out.println(data);
-            return true;
-        }
-    }
 
+    //Überprüft ob das refPic im Screenshot enthalten ist
     public Pixel_Data checker() throws InterruptedException, IOException, AWTException {
         int[] screenArray = null;
         int[] refArray = null;
@@ -89,23 +81,30 @@ public class ImageFinder{
                 count++;
                 if (count >= refObject.size()-1) {
                     System.out.println("true ...");
-                    screenObject.get(x).setX(screenObject.get(x).x+(refPic.getWidth()/2));
-                    screenObject.get(x).setY(screenObject.get(x).y+(refPic.getHeight()/2));
+                    screenObject.get(x).setX(screenObject.get(x).getX()+(refPic.getWidth()/2));
+                    screenObject.get(x).setY(screenObject.get(x).getY()+(refPic.getHeight()/2));
                     return screenObject.get(x);
                 }
             }
         }
-        return null;
+        return new Pixel_Data(0, 0, 0);
     }
-    public void klick(int xPosition,int yPosition)throws Exception{
-
-        int x = xPosition;
-        int y = yPosition;
+    public Boolean klick()throws Exception{
+        Pixel_Data a = this.checker();
+        
+        if(found.get()){
+        System.out.println("klick ?");
+        int x = a.getX();
+        int y =  a.getY();
         int mask = InputEvent.BUTTON1_DOWN_MASK;
         Robot bot = new Robot();
         bot.mouseMove(x, y);
         bot.mousePress(mask);     
-        bot.mouseRelease(mask);        
+        bot.mouseRelease(mask);
+        return true;  
+        }else{
+            return false;
+        }  
     }
 
     public List<Pixel_Data> pixler(int[] a, int w, int h) {

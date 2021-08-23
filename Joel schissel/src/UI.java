@@ -1,6 +1,12 @@
 package src;
 
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -13,11 +19,10 @@ import javafx.scene.layout.VBox;
 import javafx.util.converter.NumberStringConverter;
 
 public class UI extends VBox {
-    static boolean staticBol;
     StringProperty statusProp;
     Label status;
-    ImageFinder imagefinder;
-    boolean runBol;
+    BooleanProperty runBol;
+    BooleanProperty found;
     Slider inaccuracy;
     HBox hBox1;
     HBox hBox2;
@@ -30,8 +35,9 @@ public class UI extends VBox {
     private double insets = 20;
 
     public UI(double width, double height) {
-        imagefinder = new ImageFinder();
         inaccuracyProp = new SimpleIntegerProperty(0);
+        runBol = new SimpleBooleanProperty(false);
+        found = new SimpleBooleanProperty(false);
         initializeControlls();
         layoutControlls(width, height);
     }
@@ -66,24 +72,8 @@ public class UI extends VBox {
 
     }
 
-    public void foo() {
-        Thread t = new Thread(new Runnable() {
-            public void run() {
-                boolean found = false;
-                try {
-                    while (!found && runBol) {
-                        found = imagefinder.runner();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        t.start();
-    }
 
     private void initializeControlls() {
-        staticBol = false;
         statusProp = new SimpleStringProperty("Stoped");
         status = new Label();
         status.textProperty().bindBidirectional(statusProp);
@@ -100,23 +90,27 @@ public class UI extends VBox {
             inaccuracyProp.set(newV.intValue());
         });
         run.setOnAction(e -> {
-            if (runBol) {
+            if (runBol.get()) {
                 System.out.println("im still running");
                 statusProp.set("Still Running");
             } else {
-                staticBol = false;
                 statusProp.set("Running");
-                runBol = true;
-                foo();
-                if(staticBol){
-                    statusProp.set("Found");
-                }
+                found.set(false);
+                runBol.set(true);
+                new RunFoo(found.get()).start();;
             }
         });
         stop.setOnAction(e -> {
-            if (runBol) {
+            if (runBol.get()) {
                 statusProp.set("Stoped");
-                runBol = false;
+                runBol.set(false);
+                found.set(false);
+            }
+        });
+        found.addListener((target, newV, oldV) -> {
+            if (newV == true) {
+                statusProp.set("Found");
+                runBol.setValue(false);
             }
         });
     }
