@@ -86,7 +86,6 @@ public class UI extends VBox {
         });
         run.setOnAction(e -> {
             if (runBol.get()) {
-                System.out.println("im still running");
                 statusProp.set("Still Running");
             } else {
                 statusProp.set("Running");

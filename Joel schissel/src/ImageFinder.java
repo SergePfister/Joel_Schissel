@@ -81,7 +81,6 @@ public class ImageFinder {
                 }
                 count++;
                 if (count >= refObject.size() - 1) {
-                    System.out.println("true ...");
                     screenObject.get(x).setX(screenObject.get(x).getX() + (refPic.getWidth() / 2));
                     screenObject.get(x).setY(screenObject.get(x).getY() + (refPic.getHeight() / 2));
                     return screenObject.get(x);
@@ -93,9 +92,7 @@ public class ImageFinder {
 
     public Boolean klick() throws Exception {
         Pixel_Data a = this.checker();
-        System.out.println(!(a == null) + " Klicked Value");
         if (!(a == null)) {
-            System.out.println("klick");
             int x = a.getX();
             int y = a.getY();
             int mask = InputEvent.BUTTON1_DOWN_MASK;
