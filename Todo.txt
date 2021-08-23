@@ -1,0 +1,1 @@
+Bilder am anfang einlesen in ein Objekt/Stream und dan übergeben
