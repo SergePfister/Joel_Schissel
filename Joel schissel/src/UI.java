@@ -1,9 +1,5 @@
 package src;
 
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -72,7 +68,6 @@ public class UI extends VBox {
 
     }
 
-
     private void initializeControlls() {
         statusProp = new SimpleStringProperty("Stoped");
         status = new Label();
@@ -97,13 +92,13 @@ public class UI extends VBox {
                 statusProp.set("Running");
                 found.set(false);
                 runBol.set(true);
-                new RunFoo(found, runBol,statusProp).start();
+                new RunFoo(found, runBol, statusProp).start();
             }
         });
         stop.setOnAction(e -> {
             statusProp.set("Stoped");
-                runBol.set(false);
-                found.set(false);
+            runBol.set(false);
+            found.set(false);
         });
     }
 }

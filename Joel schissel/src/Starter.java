@@ -23,8 +23,8 @@ public class Starter extends Application {
         stage.setResizable(true);
         stage.show();
         stage.resizableProperty().set(false);
-        System.out.println( Thread.currentThread().getName()+ "Main");
+        System.out.println(Thread.currentThread().getName() + "Main");
     }
 
-    
 }
+

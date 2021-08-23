@@ -10,7 +10,7 @@ public class RunFoo extends Service<Boolean> {
     private ImageFinder imagefinder;
     boolean bool;
 
-    public RunFoo(BooleanProperty boo, BooleanProperty runBol,StringProperty statProp) {
+    public RunFoo(BooleanProperty boo, BooleanProperty runBol, StringProperty statProp) {
         bool = boo.get();
         imagefinder = new ImageFinder();
         setOnCancelled(e -> {
@@ -27,7 +27,8 @@ public class RunFoo extends Service<Boolean> {
                 statProp.set("Found");
             } else if (runBol.get()) {
                 System.out.println("Succeeded but not Found");
-                new RunFoo(boo, runBol,statProp).start();;
+                new RunFoo(boo, runBol, statProp).start();
+                ;
             }
         });
 
