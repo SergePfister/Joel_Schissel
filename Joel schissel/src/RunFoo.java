@@ -19,6 +19,11 @@ public class RunFoo extends Service<Boolean> {
                 runBol.set(false);
                 statProp.set("Found");
             } else if (runBol.get()) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e1) {
+                    e1.printStackTrace();
+                }
                 new RunFoo(boo, runBol, statProp).start();
                 ;
             }
